@@ -4,6 +4,7 @@ const { Sequelize } = require('sequelize');
 const sequelize = new Sequelize('iprito', 'root', 'Iprito17', {
     host: 'localhost',
     dialect: 'mysql',
+    logging: false
 });
 
 // Hàm kết nối database
