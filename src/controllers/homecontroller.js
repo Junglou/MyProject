@@ -29,13 +29,42 @@ let Postcrud = async (req, res) => {
 
 let display_Getcrud = async (req, res) => {
   let data = await crud_service.getallUser();
-  console.log("======================");
-  console.log(data);
-  console.log("=======================");
 
   return res.render("display_crud.ejs", {
     dataTable: data,
   });
+};
+
+let edit_Crud = async (req, res) => {
+  let userId = req.query.id;
+  console.log(userId);
+  if (userId) {
+    let userData = await crud_service.getUserInfoById(userId);
+    //chech userData not found
+    return res.render("edit_crud.ejs", {
+      user: userData,
+    });
+  } else {
+    return res.send("User Not Found");
+  }
+};
+
+let Putcrud = async (req, res) => {
+  let data = req.body;
+  let allUser = await crud_service.updateUserData(data);
+  return res.render("display_crud.ejs", {
+    dataTable: allUser,
+  });
+};
+
+let Deletecrud = async (req, res) => {
+  let id = req.query.id;
+  if (id) {
+    await crud_service.deleteUserById(id);
+    return res.send("Delete User Succeed!!");
+  } else {
+    return res.send("User Not Found!!");
+  }
 };
 
 module.exports = {
@@ -44,4 +73,7 @@ module.exports = {
   getCRUD: getCRUD,
   Postcrud: Postcrud,
   display_Getcrud: display_Getcrud,
+  edit_Crud: edit_Crud,
+  Putcrud: Putcrud,
+  Deletecrud: Deletecrud,
 };
